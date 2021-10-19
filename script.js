@@ -6,69 +6,60 @@ let randomNumber = randomNumberGenerator();
 let score = 20;
 let highscore = 0;
 
-function displayMessage(message) {
-  document.querySelector('.message').textContent = message;
-}
-
-function displayNumber(number) {
-  document.querySelector('.number').textContent = number;
-}
-
-function displayScore(score) {
-  document.querySelector('.score').textContent = score;
-}
-
-function displayHighscore(score) {
-  document.querySelector('.highscore').textContent = score;
-}
+let message = document.querySelector('.message');
+let number = document.querySelector('.number');
+let scoreDisplay = document.querySelector('.score');
+let highscoreDisplay = document.querySelector('.highscore');
+let body = document.querySelector('body');
 
 document.querySelector('.check').addEventListener('click', function () {
   let guessValue = Number(document.querySelector('.guess').value);
   if (score > 1) {
     if (guessValue === randomNumber) {
-      displayMessage('You got it!');
-      displayNumber(randomNumber);
-      document.querySelector('body').style.backgroundColor = '#60b347';
-      document.querySelector('.number').style.width = '20rem';
+      message.textContent = 'You got it!';
+      number.textContent = randomNumber;
+
+      body.style.backgroundColor = '#60b347';
+      number.style.width = '20rem';
       if (score > highscore) {
-        highscore = score;
-        displayHighscore(highscore);
+        highscoreDisplay.textContent = highscore = score;
       }
       // When player wins
     } else if (!guessValue) {
-      displayMessage('No number guessed yet!');
+      message.textContent = 'No number guessed yet!';
       // When no value has been entered
     } else if (guessValue > 20 || guessValue <= 0) {
-      displayMessage('Number will be betweeen 1 & 20!');
+      message.textContent = 'Number will be betweeen 1 & 20!';
       score--;
-      displayScore(score);
+      scoreDisplay.textContent = score;
+
       // When player guesses outside of accepted range
     } else if (guessValue !== randomNumber) {
-      displayMessage(guessValue < randomNumber ? 'Too low!' : 'Too High!');
+      message.textContent =
+        guessValue < randomNumber ? 'Too low!' : 'Too High!';
       score--;
-      displayScore(score);
+      scoreDisplay.textContent = score;
       // When guess is too low or too high
     }
   } else {
     score = 0;
-    document.querySelector('.score').textContent = score;
-    document.querySelector('.message').textContent =
-      'Game over! Select again to try again';
-    document.querySelector('body').style.backgroundColor = '#ee1b2f';
-    displayScore(score);
-    document.querySelector('.number').style.width = '20rem';
+    scoreDisplay.textContent = score;
+    message.textContent = 'Game over! Select again to try again';
+    body.style.backgroundColor = '#ee1b2f';
+    scoreDisplay.textContent = score;
+    number.style.width = '20rem';
     // When they ran out of guesses
   }
 });
 
 document.querySelector('.again').addEventListener('click', function () {
-  displayMessage('Start guessing...');
-  let randomNumber = randomNumberGenerator();
+  message.textContent = 'Start guessing...';
+  randomNumber = randomNumberGenerator();
   score = 20;
-  displayScore(score);
-  displayNumber('?');
+  scoreDisplay.textContent = score;
+  number.textContent = '?';
   document.querySelector('.guess').value = '';
-  document.querySelector('.number').style.width = '15rem';
-  document.querySelector('body').style.backgroundColor = '#222';
+  number.style.width = '15rem';
+  body.style.backgroundColor = '#222';
   // When they reset the game
 });
